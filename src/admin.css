@@ -58,6 +58,7 @@ td.m{max-width:320px;font-style:italic;opacity:.85}
 .tip{font-size:.9rem;opacity:.75;margin-top:.8rem}
 dialog{margin:auto;padding:1.4rem;background:var(--navy);color:var(--champ);border:1px solid var(--gold);width:min(440px,92vw)}dialog::backdrop{background:rgba(3,8,30,.7)}
 dialog h3{font:500 1rem var(--disp);letter-spacing:.2em;color:var(--gold2);margin-bottom:1rem}dialog label{display:block;margin-bottom:.8rem}dialog input,dialog select,dialog textarea{width:100%;display:block;margin-top:.25rem}
+dialog.ask{width:min(400px,92vw)}dialog.ask p{margin:0 0 1.2rem;line-height:1.5}dialog.ask .row{display:flex;justify-content:flex-end;gap:.6rem}.btn.danger.solid{background:#b94a4a;border-color:#b94a4a;color:#fff}.btn.danger.solid:hover{background:#cf5d5d}
 #toast{position:fixed;left:50%;bottom:22px;translate:-50% 0;background:var(--gold);color:var(--navy);padding:.55rem 1.2rem;font-weight:600;opacity:0;pointer-events:none;transition:opacity .3s;z-index:100}#toast.on{opacity:1}
 .login{max-width:380px;margin:12vh auto;padding:2rem;background:var(--navy);border:1px solid var(--gold);display:grid;gap:.9rem;text-align:center}
 .login img{height:70px;margin:0 auto}.login h1{font:500 1rem var(--disp);letter-spacing:.25em;color:var(--gold2)}.login input{background:#08174d;border:1px solid var(--gold);padding:.6rem .8rem;width:100%}.login .err{color:#e59a9a;min-height:1.2em;font-size:.95rem}

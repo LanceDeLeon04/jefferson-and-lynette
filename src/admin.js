@@ -66,6 +66,18 @@ const dirty = () => { S.dirty = true; status() }
 const status = () => { const s = $('#st'); if (!s) return; s.textContent = S.tab === 'ent' ? (S.edirty ? '● Unsaved entourage changes' : S.esaved ? 'Entourage saved ' + S.esaved : '') : (S.dirty ? '● Unsaved layout changes' : S.saved ? 'Layout saved ' + S.saved : '') }
 const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('on'), 2600) }
 
+// themed confirm dialog (replaces the browser's "This page says…" box)
+function ask(msg, { title = 'Please confirm', ok = 'Confirm', danger = false } = {}) {
+  return new Promise(res => {
+    const d = document.createElement('dialog'); d.className = 'ask'
+    d.innerHTML = `<form method="dialog"><h3>${esc(title)}</h3><p>${esc(msg)}</p><div class="row"><button type="button" class="btn ghost" data-v="0">Cancel</button><button type="button" class="btn${danger ? ' danger solid' : ''}" data-v="1">${esc(ok)}</button></div></form>`
+    let v = false
+    d.addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (b) { v = b.dataset.v === '1'; d.close() } else if (e.target === d) d.close() })
+    d.addEventListener('close', () => { d.remove(); res(v) })
+    document.body.append(d); d.showModal(); d.querySelector('[data-v="0"]').focus()
+  })
+}
+
 // ---------- shell ----------
 function login(msg = '') {
   app.innerHTML = `<form class="login" id="lf"><img src="${logo}" alt=""><h1>Admin sign in</h1><input name="e" type="email" placeholder="Email" autocomplete="username" required><input name="p" type="password" placeholder="Password" autocomplete="current-password" required><div class="err">${esc(msg)}</div><button class="btn">Sign in</button></form>`
@@ -253,15 +265,15 @@ const acts = {
   save: async () => { if (S.tab === 'ent') return saveEnt(); try { await db.savePlan(S.plan); S.dirty = false; S.saved = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); status(); toast('Layout saved') } catch (e) { toast('Save failed: ' + e.message) } },
   out: async () => { await sb?.auth.signOut(); location.reload() },
   new: () => openDlg(), edit: b => openDlg(b.dataset.id), dclose: () => $('#dlg').close(), csv,
-  del: async b => { const g = guest(b.dataset.id); if (!confirm('Delete the reply from ' + g.name + '?')) return; try { await delGuest(g.id); if (clean()) dirty(); render() } catch (e) { toast(e.message) } },
+  del: async b => { const g = guest(b.dataset.id); if (!await ask('Delete the reply from ' + g.name + '? This can’t be undone.', { title: 'Delete reply', ok: 'Delete', danger: true })) return; try { await delGuest(g.id); if (clean()) dirty(); render() } catch (e) { toast(e.message) } },
   pick: b => { S.pick = S.pick === b.dataset.id ? null : b.dataset.id; glist() },
   exp: b => { const g = guest(b.dataset.id); S.exp[g.id] = !isExp(g); glist() },
   addt: b => addTable(b.dataset.v), auto: autoSeat,
-  clr: () => { if (confirm('Remove everyone from their seats?')) { S.plan.seats = {}; dirty(); refresh() } },
+  clr: async () => { if (await ask('Remove everyone from their seats?', { title: 'Clear seats', ok: 'Clear seats', danger: true })) { S.plan.seats = {}; dirty(); refresh() } },
   zi: () => { S.zoom = Math.min(2, +(sc() + .1).toFixed(2)); floor() }, zo: () => { S.zoom = Math.max(.2, +(sc() - .1).toFixed(2)); floor() }, zf: () => { S.zoom = 0; floor() },
   print: () => { plist(); print() },
   gadd: () => { S.ent.push({ id: uid(), part: 'secondary', title: '', items: [''] }); edirty(); viewEnt(); document.querySelector('.eg:last-of-type [data-eg=title]')?.focus() },
-  gdel: b => { const g = eg(b); if (!confirm('Delete the group “' + (g.title || PARTS[g.part]) + '” and all its names?')) return; S.ent.splice(S.ent.indexOf(g), 1); edirty(); viewEnt() },
+  gdel: async b => { const g = eg(b); if (!await ask('Delete the group “' + (g.title || PARTS[g.part]) + '” and all its names?', { title: 'Delete group', ok: 'Delete', danger: true })) return; S.ent.splice(S.ent.indexOf(g), 1); edirty(); viewEnt() },
   gup: b => { move(S.ent, S.ent.indexOf(eg(b)), -1) && (edirty(), viewEnt()) }, gdn: b => { move(S.ent, S.ent.indexOf(eg(b)), 1) && (edirty(), viewEnt()) },
   iadd: b => { const g = eg(b); g.items.push(''); edirty(); viewEnt(); const l = document.querySelectorAll('.eg')[S.ent.indexOf(g)]; l?.querySelector('li:last-child input')?.focus() },
   idel: b => { eg(b).items.splice(ei(b), 1); edirty(); viewEnt() },
@@ -269,7 +281,7 @@ const acts = {
   rot: () => { const t = tbl(S.sel); t.rot = t.rot ? 0 : 1; dirty(); refresh() },
   unseat: b => { seatsOf(b.dataset.t)[+b.dataset.i] = null; dirty(); refresh() },
   dup: () => { const o = obj(S.sel), c = { ...JSON.parse(JSON.stringify(o)), id: (tbl(o.id) ? 't' : 'i') + uid(), x: o.x + 30, y: o.y + 30 }; if (tbl(o.id)) { c.name = o.name + ' copy'; S.plan.tables.push(c) } else S.plan.items.push(c); S.sel = c.id; dirty(); refresh() },
-  delsel: () => { const o = obj(S.sel); if (!o) return; if (tbl(o.id)) { if (seatsOf(o.id).some(Boolean) && !confirm('Seated guests at this table will become unseated. Delete it?')) return; S.plan.tables = S.plan.tables.filter(t => t.id !== o.id); delete S.plan.seats[o.id] } else S.plan.items = S.plan.items.filter(i => i.id !== o.id); S.sel = null; dirty(); refresh() }
+  delsel: async () => { const o = obj(S.sel); if (!o) return; if (tbl(o.id)) { if (seatsOf(o.id).some(Boolean) && !await ask('Seated guests at this table will become unseated. Delete it?', { title: 'Delete table', ok: 'Delete', danger: true })) return; S.plan.tables = S.plan.tables.filter(t => t.id !== o.id); delete S.plan.seats[o.id] } else S.plan.items = S.plan.items.filter(i => i.id !== o.id); S.sel = null; dirty(); refresh() }
 }
 app.addEventListener('click', e => { const b = e.target.closest('[data-act]'); if (b) acts[b.dataset.act]?.(b) })
 app.addEventListener('dragstart', e => { const c = e.target.closest('.mem,.chip'); if (c) { e.dataTransfer.setData('text/plain', c.dataset.id); e.dataTransfer.effectAllowed = 'move' } })
