@@ -40,7 +40,7 @@
  </div>
 </div>
 
-<div id="giftov" tabindex="-1" role="dialog" aria-modal="true" aria-label="Send a gift" data-lenis-prevent hidden>
+<div id="giftov" class="ov" tabindex="-1" role="dialog" aria-modal="true" aria-label="Send a gift" data-lenis-prevent hidden>
  <main class="gv">
   <button class="gv-back top" type="button" data-gv-close>← Back to invitation</button>
   <header class="gv-h">
@@ -67,6 +67,30 @@
  </main>
 </div>
 
+<div id="progov" class="ov" tabindex="-1" role="dialog" aria-modal="true" aria-label="Wedding day programme" data-lenis-prevent hidden>
+ <main class="gv pg">
+  <button class="gv-back top" type="button" data-gv-close>← Back to invitation</button>
+  <header class="gv-h">
+   <img src="./src/assets/logo.webp" alt="J and L monogram" class="gv-mono" width="84" height="87">
+   <p class="gv-kick">Jefferson &amp; Lynette</p>
+   <h2>Wedding Day Program</h2>
+   <div class="gv-orn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 6.5L17.5 12L12 17.5L6.5 12Z"/></svg></div>
+   <p class="gv-lead">December 28, 2026</p>
+   <p class="pg-venue">Martina’s Resort and Event Center<br>Mayasang, Lemery, Batangas</p>
+  </header>
+  <ol class="pg-list">
+  <li><time>3:00 PM</time><div><h3>Guest Arrival &amp; Registration</h3><p>Guest welcome and seating.</p></div></li>
+  <li><time>4:00 PM</time><div><h3>Wedding Ceremony</h3><ul><li>Processional</li></ul></div></li>
+  <li><time>5:00 PM</time><div><h3>Post-Ceremony Photos &amp; Cocktail Hour</h3></div></li>
+  <li><time>6:00 PM</time><div><h3>The Royal Celebration</h3><ul><li>Grand Entrance of the Newlyweds and Entourage</li><li>Opening Prayer</li><li>Welcome Remarks</li><li>Dinner and Thematic Dining Experience</li><li>Messages from Family and Friends</li><li>Cake Cutting and Champagne Toast</li><li>First Dance</li><li>Special Performances</li><li>Wedding Games and Entertainment</li><li>Same-Day Edit (SDE) Presentation</li><li>Thank-You Message from the Newlyweds</li><li>Open Dance Floor and Celebration</li></ul></div></li>
+  </ol>
+  <p class="pg-end">Let the celebration begin!<span>Two Hearts. One Journey. A Lifetime Together.</span></p>
+  <section class="gv-note">
+   <button class="btn" type="button" data-gv-close>← Back to invitation</button>
+  </section>
+ </main>
+</div>
+
 <nav aria-label="Sections"><a href="#top">Welcome</a><a href="#date">Countdown</a><a href="#attire">Attire</a><a href="#venue">Venue</a><a href="#gallery">Gallery</a><a href="#gift">Gift</a><a href="#entourage">Entourage</a><a href="#rsvp">RSVP</a></nav>
 
 <header class="hero" id="top">
@@ -83,11 +107,15 @@
 
 <div class="panel"><section class="s rv" id="date">
  <h2>Counting the days</h2><div class="orn"><svg viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'><path d='M12 6.5L17.5 12L12 17.5L6.5 12Z'/></svg></div>
- <p class="disp" style="color:var(--navy);margin-bottom:1.6rem">December 28, 2026</p>
+ <p class="disp" style="color:var(--navy);margin-bottom:1.2rem">December 28, 2026</p>
+ <div class="sched" aria-label="Schedule of the day">
+  <div><b>4:00 PM</b><span>Ceremony</span></div><i aria-hidden="true"></i><div><b>6:00 PM</b><span>Reception</span></div>
+ </div>
  <div class="cd" id="cd" hidden>
   <div><b id="d">0</b><span>Days</span></div><div><b id="h">0</b><span>Hours</span></div><div><b id="m">0</b><span>Minutes</span></div><div><b id="s">0</b><span>Seconds</span></div>
  </div>
  <p id="cdmsg">The wedding date will be announced soon.</p>
+ <div class="prog-cta"><button class="btn" id="progopen" type="button">View Full Programme</button></div>
 </section></div>
 
 <div class="band"><section class="s rv" id="attire">

@@ -75,27 +75,29 @@ initGallery(lenis)
 // Gift details
 {const p=$('pay');GIFT.forEach(g=>{const d=document.createElement('div');d.innerHTML=`<b>${g.label}</b><span>${g.name}</span><em>${g.number}</em><button class="btn">Copy</button>`;d.querySelector('button').onclick=async e=>{try{await navigator.clipboard.writeText(g.number.replace(/\s/g,''))}catch(_){}e.target.textContent='Copied'};p.append(d)});if(!GIFT.length)p.remove()}
 
-// Gift / QR view: opens over the invitation instead of loading another page, so the music never stops
-;(function () {
-  const ov = $('giftov'), open = $('giftopen'); if (!ov || !open) return
+// Full-screen views (gift QR, programme): they open over the invitation instead of loading another page, so the music never stops
+function bindView(ov, trigger) {
+  if (!ov || !trigger) return
   let shown = false
   const show = () => {
     if (shown) return; shown = true
     const im = ov.querySelector('img[data-src]'); if (im) { im.src = im.dataset.src; im.removeAttribute('data-src') }
     ov.hidden = false; ov.scrollTop = 0; lenis.stop(); requestAnimationFrame(() => { ov.classList.add('on'); ov.focus({ preventScroll: true }) })
-    try { history.pushState({ gift: 1 }, '') } catch (e) {}
+    try { history.pushState({ view: ov.id }, '') } catch (e) {}
   }
   const hide = fromPop => {
     if (!shown) return; shown = false
-    ov.classList.remove('on'); lenis.start(); open.focus({ preventScroll: true })
+    ov.classList.remove('on'); lenis.start(); trigger.focus({ preventScroll: true })
     setTimeout(() => { if (!shown) ov.hidden = true }, 480)
-    if (!fromPop) { try { if (history.state && history.state.gift) history.back() } catch (e) {} }
+    if (!fromPop) { try { if (history.state && history.state.view === ov.id) history.back() } catch (e) {} }
   }
-  open.addEventListener('click', e => { e.preventDefault(); show() })
+  trigger.addEventListener('click', e => { e.preventDefault(); show() })
   ov.querySelectorAll('[data-gv-close]').forEach(b => b.addEventListener('click', () => hide(false)))
   addEventListener('keydown', e => { if (e.key === 'Escape') hide(false) })
   addEventListener('popstate', () => hide(true))   // phone back button closes the view rather than leaving the invitation
-})()
+}
+bindView($('giftov'), $('giftopen'))
+bindView($('progov'), $('progopen'))
 
 initFx()
 
