@@ -1,0 +1,39 @@
+:root{--navy:#0B1F5C;--navy2:#13307F;--gold:#B98A3E;--gold2:#E2BE78;--cream:#F8F3EA;--hair:rgba(166,138,75,.4);--text:#1A2B5E;
+--disp:'Cinzel','Trajan Pro',Georgia,serif;--body:'Cormorant Garamond',Georgia,serif}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;color:var(--text);font:400 1.2rem/1.65 var(--body);background:radial-gradient(ellipse at 50% 0,#fffdf8 0,var(--cream) 55%,#EFE6D2 100%)}
+.gp{max-width:620px;margin:0 auto;padding:calc(1.2rem + env(safe-area-inset-top,0px)) 1.2rem calc(3rem + env(safe-area-inset-bottom,0px));text-align:center}
+.back{display:inline-block;font:500 .66rem var(--disp);letter-spacing:.28em;text-transform:uppercase;color:var(--navy);text-decoration:none;padding:.6rem 0;border-bottom:1px solid var(--gold)}
+.back.top{display:block;width:max-content;margin:0 0 1rem}
+.mono{width:84px;height:auto;display:block;margin:.6rem auto 0}
+.kick{font:500 .75rem var(--disp);letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin:1rem 0 .2rem;padding-left:.4em}
+h1{font:400 clamp(1.7rem,6vw,2.3rem)/1.25 var(--disp);letter-spacing:.14em;text-transform:uppercase;color:var(--navy);margin:0}
+.orn{display:flex;align-items:center;justify-content:center;gap:.7rem;margin:1rem auto 1.4rem;color:var(--gold);width:min(60%,200px)}
+.orn::before,.orn::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.orn::after{background:linear-gradient(270deg,transparent,var(--gold))}
+.orn svg{width:9px;height:9px;flex:none}
+.gh p{margin:0 auto .9rem;max-width:30rem}
+.gh .lead{font-style:italic;font-size:1.4rem;color:var(--navy)}
+.gh b{font-weight:600;color:var(--navy)}
+.qr{margin:2rem auto 0;padding:1.6rem 1.4rem 1.8rem;max-width:380px;background:#FFFDF8;border:1px solid var(--hair);outline:1px solid rgba(166,138,75,.28);outline-offset:-8px;box-shadow:0 18px 40px rgba(15,26,60,.08)}
+.bank{font:500 .8rem var(--disp);letter-spacing:.34em;text-transform:uppercase;color:var(--gold);padding-left:.34em;margin-bottom:1rem}
+.qrbox{background:#fff;padding:14px;border:1px solid var(--hair);display:inline-block;line-height:0}
+.qrbox img{width:min(270px,64vw);height:auto;display:block}
+.acct{margin:1rem 0 .1rem;font-size:1.25rem}.acct b{font-weight:600;color:var(--navy)}
+.fee{margin:0 0 1.1rem;font-size:.95rem;font-style:italic;opacity:.75}
+.btn{display:inline-block;font:500 .72rem var(--disp);letter-spacing:.28em;text-transform:uppercase;padding:1rem 1.8rem;border:1px solid var(--gold);background:var(--navy);color:var(--gold2);text-decoration:none;cursor:pointer;transition:background .4s,color .4s}
+.btn:hover{background:var(--gold);color:var(--navy)}
+.btn.ghost{background:transparent;color:var(--navy)}
+.btn.ghost:hover{background:var(--navy);color:var(--gold2)}
+.thanks{margin:2.2rem auto 0;font-style:italic;font-size:1.3rem;color:var(--navy)}
+.thanks span{display:block;margin-top:.3rem;font:500 .72rem var(--disp);letter-spacing:.28em;text-transform:uppercase;font-style:normal;color:var(--gold)}
+.note{margin:2.4rem auto 0;padding:1.6rem 1.4rem;background:rgba(185,138,62,.1);border-left:2px solid var(--gold)}
+.note b{display:block;font:500 .68rem var(--disp);letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
+.note p{margin:0 0 1.2rem;font-size:1.3rem;color:var(--navy)}
+a:focus-visible{outline:2px solid var(--navy2);outline-offset:3px}
+.gh,.qr,.thanks,.note{animation:up 1s cubic-bezier(.22,1,.36,1) both}
+.qr{animation-delay:.2s}.thanks{animation-delay:.4s}.note{animation-delay:.55s}
+@keyframes up{from{opacity:0;transform:translateY(14px)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+@media(max-width:480px){.btn{width:100%;text-align:center}}

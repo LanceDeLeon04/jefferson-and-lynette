@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jefferson &amp; Lynette – Royal Wedding Invitation</title>
+<link rel="icon" type="image/png" sizes="32x32" href="./src/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./src/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="./src/assets/favicon-180.png">
+<meta name="theme-color" content="#0B1F5C">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+<div id="bar"></div>
+<button id="music" hidden aria-label="Toggle music">♪</button>
+<div id="intro" role="dialog" aria-label="Wedding invitation envelope">
+ <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="wax" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="7"/></filter></svg>
+ <div class="stage" id="stage">
+  <p class="pre">You are cordially invited</p>
+  <div class="scene" id="scene"><div class="env" id="env">
+   <div class="eshadow"></div>
+   <div class="back" id="pBack"><div class="liner"></div></div>
+   <div class="scroll" id="scroll" aria-hidden="true">
+    <i class="rod t"></i>
+    <div class="sheet" id="sheet"><div class="sin" id="sin">
+     <img src="./src/assets/logo.webp" alt="">
+     <p class="k">The Royal Wedding of</p>
+     <b>Jefferson &amp; Lynette</b>
+     <span class="ln"></span>
+     <p class="d">December 28, 2026</p>
+     <p class="v">Martina’s Resort and Event Center</p>
+    </div></div>
+    <i class="rod b"></i>
+    <i class="tie"></i>
+   </div>
+   <div class="front" id="pFront"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id='fg1' x1='0' x2='1'><stop offset='0' stop-color='#6f5a2c'/><stop offset='.3' stop-color='#d9c590'/><stop offset='.5' stop-color='#a88b4a'/><stop offset='.7' stop-color='#d9c590'/><stop offset='1' stop-color='#6f5a2c'/></linearGradient></defs><polygon points="0,0 50,54 0,100" fill="rgba(255,255,255,.07)"/><polygon points="100,0 50,54 100,100" fill="rgba(0,0,0,.18)"/><polygon points="0,100 50,54 100,100" fill="rgba(255,255,255,.04)"/><path d="M0 100L50 54L100 100" fill="none" stroke="rgba(0,0,0,.4)" stroke-width="1.4" vector-effect="non-scaling-stroke"/><path d="M0 100L50 54L100 100" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="1" transform="translate(0 .8)" vector-effect="non-scaling-stroke"/><rect x="3" y="4.5" width="94" height="91" fill="none" stroke="rgba(226,190,120,.55)" stroke-width="1" stroke-dasharray="4 4" vector-effect="non-scaling-stroke"/><polyline points="0,0 50,54 100,0" fill="none" stroke="url(#fg1)" stroke-width="3" vector-effect="non-scaling-stroke"/></svg></div>
+   <div class="flapw" id="flapw"><div class="flap" id="flap"><div class="face f"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id='fg2' x1='0' x2='1'><stop offset='0' stop-color='#6f5a2c'/><stop offset='.3' stop-color='#d9c590'/><stop offset='.5' stop-color='#a88b4a'/><stop offset='.7' stop-color='#d9c590'/><stop offset='1' stop-color='#6f5a2c'/></linearGradient></defs><polygon points="0,0 100,0 50,100" fill="rgba(255,255,255,.05)"/><polyline points="0,0 50,100 100,0" fill="none" stroke="url(#fg2)" stroke-width="3.5" vector-effect="non-scaling-stroke"/></svg></div><div class="face b"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id='fg3' x1='0' x2='1'><stop offset='0' stop-color='#6f5a2c'/><stop offset='.3' stop-color='#d9c590'/><stop offset='.5' stop-color='#a88b4a'/><stop offset='.7' stop-color='#d9c590'/><stop offset='1' stop-color='#6f5a2c'/></linearGradient></defs><polyline points="0,0 50,100 100,0" fill="none" stroke="url(#fg3)" stroke-width="3.5" vector-effect="non-scaling-stroke"/></svg></div></div></div>
+   <button class="seal" id="seal" aria-label="Break the seal and open the invitation"><span class="half l"><img src="./src/assets/logo.webp" alt=""></span><span class="half r"><img src="./src/assets/logo.webp" alt=""></span></button>
+  </div></div>
+  <p class="hint">Tap the seal to open</p>
+ </div>
+</div>
+
+<nav aria-label="Sections"><a href="#top">Welcome</a><a href="#date">Countdown</a><a href="#attire">Attire</a><a href="#venue">Venue</a><a href="#gallery">Gallery</a><a href="#gift">Gift</a><a href="#entourage">Entourage</a><a href="#rsvp">RSVP</a></nav>
+
+<header class="hero" id="top">
+ 
+ <div>
+  <img class="logo" src="./src/assets/logo.webp" alt="Jefferson and Lynette wedding monogram: J and L under a golden crown">
+  <h1 class="split" id="names">Jefferson &amp; Lynette</h1>
+  <p class="disp hz dress" style="--d:2.4s">Royal Formal</p>
+  <p class="sub hz" style="--d:2.7s">A touch of royalty in every detail</p>
+  <p class="inv hz" style="--d:3s">Together with their families, they request the honor of your presence at their wedding.</p>
+ </div>
+ <span class="cue"></span>
+</header>
+
+<div class="panel"><section class="s rv" id="date">
+ <h2>Counting the days</h2><div class="orn"><svg viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'><path d='M12 6.5L17.5 12L12 17.5L6.5 12Z'/></svg></div>
+ <p class="disp" style="color:var(--navy);margin-bottom:1.6rem">December 28, 2026</p>
+ <div class="cd" id="cd" hidden>
+  <div><b id="d">0</b><span>Days</span></div><div><b id="h">0</b><span>Hours</span></div><div><b id="m">0</b><span>Minutes</span></div><div><b id="s">0</b><span>Seconds</span></div>
+ </div>
+ <p id="cdmsg">The wedding date will be announced soon.</p>
+</section></div>
+
+<div class="band"><section class="s rv" id="attire">
+ <h2>Attire guide</h2><div class="orn"><svg viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'><path d='M12 6.5L17.5 12L12 17.5L6.5 12Z'/></svg></div>
+ <div class="attire">
+  <div class="at-tabs" role="tablist" aria-label="Attire type">
+   <button role="tab" id="tab-guest" aria-controls="pn-guest" aria-selected="true">Guest</button>
+   <button role="tab" id="tab-principal" aria-controls="pn-principal" aria-selected="false" tabindex="-1">Principal Sponsors</button>
+   <button role="tab" id="tab-secondary" aria-controls="pn-secondary" aria-selected="false" tabindex="-1">Secondary Sponsors</button>
+  </div>
+
+  <div class="at-panel" role="tabpanel" id="pn-guest" aria-labelledby="tab-guest">
+   <p class="at-kicker">Guest dress code</p><p class="at-style">Casual – Formal</p>
+   <p class="at-lead">We would love to see you in any of our wedding colors. Feel free to wear a neat, comfortable, and presentable outfit that suits your style.</p>
+   <div class="at-cols">
+    <div><h3>For the ladies</h3><ul><li>Dresses, blouses, slacks, or jeans</li><li>Navy, gold, champagne, blush, or white</li></ul><figure class="at-img"><img src="./src/assets/attire/guest-ladies.webp" alt="Ladies guest attire examples" loading="lazy" width="729" height="421"></figure></div>
+    <div><h3>For the gentlemen</h3><ul><li>Polos, button-downs, slacks, or jeans</li><li>Navy, gold, champagne, blush, or white</li></ul><figure class="at-img"><img src="./src/assets/attire/guest-gentlemen.webp" alt="Gentlemen guest attire examples" loading="lazy" width="725" height="421"></figure></div>
+   </div>
+   <div class="at-rem"><h3>A few reminders</h3><ul>
+    <li class="ok">Wear neat, comfortable, and presentable attire</li>
+    <li class="ok">You may wear any shade of navy, gold, champagne, blush, or white</li>
+    <li class="no">Please avoid sleeveless shirts, very casual beachwear, and ripped/distressed jeans</li></ul></div>
+  </div>
+
+  <div class="at-panel" role="tabpanel" id="pn-principal" aria-labelledby="tab-principal" hidden>
+   <p class="at-kicker">Principal Sponsors attire guide</p><p class="at-style">Formal</p>
+   <div class="at-cols">
+    <div><h3>For gentlemen</h3><ul><li>Black tuxedo with bow tie</li><li>Classic and sophisticated accessories</li><li>Black shoes</li></ul></div>
+    <div><h3>For ladies</h3><ul><li>Elegant long gown in gold / champagne tones</li><li>Classic and sophisticated accessories</li><li>Heels in neutral tones</li></ul></div>
+   </div>
+   <figure class="at-img"><img src="./src/assets/attire/principal-group.webp" alt="Principal Sponsors in black tuxedos and gold or champagne gowns" loading="lazy" width="770" height="359"></figure>
+   <h3 class="at-sub">Gown style options <small>(for ladies)</small></h3>
+   <figure class="at-img"><img src="./src/assets/attire/principal-gowns.webp" alt="Four gold and champagne gown styles" loading="lazy" width="532" height="258"></figure>
+  </div>
+
+  <div class="at-panel" role="tabpanel" id="pn-secondary" aria-labelledby="tab-secondary" hidden>
+   <p class="at-kicker">Secondary Sponsors &amp; entourage attire</p><p class="at-style">Formal</p>
+   <div class="at-grid">
+    <div><h3>Bridesmaids</h3><ul><li>Navy blue gowns in various styles</li><li>Subtle accessories (pearl or gold)</li><li>White bouquets</li></ul><figure class="at-img"><img src="./src/assets/attire/bridesmaids.webp" alt="Bridesmaids in navy gowns" loading="lazy" width="754" height="378"></figure></div>
+    <div><h3>Groomsmen</h3><ul><li>Charcoal tuxedos with black lapel</li><li>Black bow ties</li><li>White dress shirts</li><li>Black pocket square</li><li>Polished black shoes</li></ul><figure class="at-img"><img src="./src/assets/attire/groomsmen.webp" alt="Groomsmen in charcoal tuxedos" loading="lazy" width="780" height="346"></figure></div>
+    <div><h3>Little bridesmaids <small>(Flower Girls)</small></h3><ul><li>Princess ball gowns in white / ivory</li><li>Delicate details (lace, tulle, or beading)</li><li>Floral headpiece or tiara</li><li>Small bouquets or flower baskets</li></ul><figure class="at-img"><img src="./src/assets/attire/flowergirls.webp" alt="Flower girls in white ball gowns" loading="lazy" width="604" height="354"></figure></div>
+    <div><h3>Little groomsmen <small>(Ring Bearer)</small></h3><ul><li>White coat / suit jacket</li><li>White dress shirt</li><li>White dress pants</li><li>White bow tie</li><li>White shoes</li></ul><figure class="at-img narrow"><img src="./src/assets/attire/ringbearer.webp" alt="Ring bearer in a white suit" loading="lazy" width="142" height="354"></figure></div>
+   </div>
+  </div>
+ </div>
+ <h2 style="margin-top:3.5rem;font-size:clamp(1.6rem,5vw,2.2rem)">Wedding colors</h2>
+ <div class="sw" style="margin-top:1rem">
+  <figure><i style="background:#0B1F5C"></i><figcaption>Navy</figcaption></figure>
+  <figure><i style="background:radial-gradient(circle at 35% 30%,#E2BE78,#B98A3E)"></i><figcaption>Gold</figcaption></figure>
+  <figure><i style="background:#EADFCB"></i><figcaption>Champagne</figcaption></figure>
+  <figure><i style="background:#E8B9A9"></i><figcaption>Blush</figcaption></figure>
+ </div>
+</section></div>
+
+<div class="panel"><section class="s loc rv" id="venue">
+ <h2>Location</h2><div class="orn"><svg viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'><path d='M12 6.5L17.5 12L12 17.5L6.5 12Z'/></svg></div>
+ <h3>Martina’s Resort and Event Center</h3>
+ <p>Mayasang, Lemery, Batangas</p>
+ <div class="map" id="map"><iframe title="Map to Martina’s Resort and Event Center" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Martina%27s+Resort+and+Event+Center+Mayasang+Lemery+Batangas&amp;z=15&amp;output=embed"></iframe><span class="mh">Tap to explore the map</span></div>
+ <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Martina%27s+Resort+and+Event+Center+Mayasang+Lemery+Batangas" target="_blank" rel="noopener">Open in Maps</a>
+</section></div>
+
+<div class="dark"><section class="s g rv" id="gallery">
+ <h2>Our moments</h2><div class="orn"><svg viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'><path d='M12 6.5L17.5 12L12 17.5L6.5 12Z'/></svg></div>
+ <p class="gsub">A glimpse of our journey together</p>
+ <div class="gal" id="gal"></div>
+</section></div>
+
+<div class="panel"><section class="s gift rv" id="gift">
+ <h2>With gratitude</h2><div class="orn"><svg viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'><path d='M12 6.5L17.5 12L12 17.5L6.5 12Z'/></svg></div>
+ <div class="poem">
+  <span>Your presence is the gift we treasure,</span><span>Our joy with you, beyond all measure.</span>
+  <span>Yet should you wish to bless our start,</span><span>A gift of cash, a gift from the heart,</span>
+  <span>Or a bank transfer, small or grand,</span><span>Will help us build the life we planned.</span>
+  <span>With grateful hearts, we thank you all,</span><span>For answering love’s gentle call.</span>
+ </div>
+ <div class="pay" id="pay"></div>
+ <div class="gift-cta"><a class="btn" href="./gift.html">Send a gift via QR code</a></div>
+</section></div>
+
+<div class="band"><section class="s en rv" id="entourage">
+ <h2>Our Entourage</h2><div class="orn"><svg viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'><path d='M12 6.5L17.5 12L12 17.5L6.5 12Z'/></svg></div>
+ <p class="en-intro">With love and deepest gratitude, we honor the people who stand beside us on our special day.</p>
+ <div id="en-body"></div>
+</section></div>
+
+<div class="panel"><section class="s rv" id="rsvp">
+ <h2>Kindly reply</h2><div class="orn"><svg viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'><path d='M12 6.5L17.5 12L12 17.5L6.5 12Z'/></svg></div>
+ <div class="rsvp" id="rform">
+  <label>Full name<input id="rn" autocomplete="name"></label>
+  <label>Guest type<select id="rt"><option value="">Select guest type…</option><option value="principal">Principal Sponsor</option><option value="secondary">Secondary Sponsor</option><option value="guest">Guest</option></select></label>
+  <aside class="rsvp-note" id="rnote" hidden aria-live="polite"></aside>
+  <label>Will you attend?<select id="ra"><option value="Joyfully accepts">Joyfully accepts</option><option value="Regretfully declines">Regretfully declines</option></select></label>
+  <label id="rplus" hidden>Bringing a plus? How many companions<input id="rp" type="number" min="0" max="9" value="0" inputmode="numeric"></label>
+  <div id="rcomp" hidden></div>
+  <label>A message for the couple<textarea id="rm" rows="3"></textarea></label>
+  <div class="err" id="err" role="alert"></div>
+  <button class="btn" id="rsend">Send reply</button>
+ </div>
+ <div class="rsvp" id="thanks"><b>Thank you</b><p id="tmsg"></p><p id="tseat"></p></div>
+</section></div>
+
+<footer class="rv">
+ <img src="./src/assets/logo.webp" alt="J and L monogram">
+ <q>We are truly grateful for your love, guidance and friendship</q>
+ <p class="disp">Jefferson &amp; Lynette</p>
+</footer>
+
+<script type="module" src="/src/main.js"></script>
+</body></html>

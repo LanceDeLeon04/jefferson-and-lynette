@@ -1,0 +1,4 @@
+{"name":"royal-wedding-invitation","version":"1.0.0","private":true,"type":"module",
+"scripts":{"dev":"vite","build":"vite build","build:single":"vite build --mode single","preview":"vite preview"},
+"dependencies":{"@supabase/supabase-js":"^2.45.0","gsap":"^3.12.5","lenis":"^1.1.13"},
+"devDependencies":{"vite":"^5.4.0","vite-plugin-singlefile":"^2.0.2"}}
