@@ -40,6 +40,33 @@
  </div>
 </div>
 
+<div id="giftov" tabindex="-1" role="dialog" aria-modal="true" aria-label="Send a gift" data-lenis-prevent hidden>
+ <main class="gv">
+  <button class="gv-back top" type="button" data-gv-close>← Back to invitation</button>
+  <header class="gv-h">
+   <img src="./src/assets/logo.webp" alt="J and L monogram" class="gv-mono" width="84" height="87">
+   <p class="gv-kick">With Gratitude</p>
+   <h2>A Gift from the Heart</h2>
+   <div class="gv-orn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 6.5L17.5 12L12 17.5L6.5 12Z"/></svg></div>
+   <p class="gv-lead">Your presence on our special day is the greatest gift we could ask for.</p>
+   <p>Should you wish to bless us further, we would be truly grateful to receive your gift through <b>BPI InstaPay</b>. Simply scan the QR code below with your banking or e-wallet app.</p>
+  </header>
+  <figure class="gv-qr">
+   <figcaption class="gv-bank">BPI · InstaPay</figcaption>
+   <div class="gv-qrbox"><img data-src="./gift-qr.png" alt="BPI InstaPay QR code for Lynette V." width="378" height="378"></div>
+   <p class="gv-acct">Account name: <b>Lynette V.</b></p>
+   <p class="gv-fee">Transfer fees may apply.</p>
+   <a class="btn gv-ghost" href="./gift-qr.png" download="Jefferson-Lynette-Gift-QR.png">Save QR code</a>
+  </figure>
+  <p class="gv-thanks">Thank you for your love, generosity, and kindness.<br><span>With grateful hearts, Jefferson &amp; Lynette</span></p>
+  <section class="gv-note">
+   <b>Seat reservation</b>
+   <p>Please go back to the invitation to reserve your seat.</p>
+   <button class="btn" type="button" data-gv-close>← Back to invitation</button>
+  </section>
+ </main>
+</div>
+
 <nav aria-label="Sections"><a href="#top">Welcome</a><a href="#date">Countdown</a><a href="#attire">Attire</a><a href="#venue">Venue</a><a href="#gallery">Gallery</a><a href="#gift">Gift</a><a href="#entourage">Entourage</a><a href="#rsvp">RSVP</a></nav>
 
 <header class="hero" id="top">
@@ -138,7 +165,7 @@
   <span>With grateful hearts, we thank you all,</span><span>For answering love’s gentle call.</span>
  </div>
  <div class="pay" id="pay"></div>
- <div class="gift-cta"><a class="btn" href="./gift.html">Send a gift via QR code</a></div>
+ <div class="gift-cta"><a class="btn" id="giftopen" href="./gift.html">Send a gift via QR code</a></div>
 </section></div>
 
 <div class="band"><section class="s en rv" id="entourage">

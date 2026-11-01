@@ -611,3 +611,59 @@ img{content-visibility:auto}
 .en-parents .en-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
 .en-amp{font:400 3rem/1 var(--script);color:var(--gold);margin:-.6rem 0}
 @media(max-width:620px){.en-card.pairs li{flex-basis:100%}}
+
+
+/* ===== v13  PHONE / LOW-POWER MODE  (html.lite is set from main.js on phones, tablets and touch devices) =====
+   Fewer, lighter layers: no pinned stacked sections, no blur/drop-shadow filters, no endless repaints. */
+.eshadow{filter:none}
+.hero .logo{filter:drop-shadow(0 8px 18px rgba(0,0,0,.45))}
+@keyframes hzlite{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+html.lite body.show .hero .logo{animation:hzlite 1.6s .1s cubic-bezier(.22,1,.36,1) both}
+html.lite .hero .logo,html.lite .hero img.logo,html.lite footer img,html.lite .ph img,html.lite .seal,html.lite .sin img{filter:none;animation:none}
+html.lite body.show .hero .logo{animation:hzlite 1.6s .1s cubic-bezier(.22,1,.36,1) both}
+html.lite .cd div::after,html.lite .pay>div::after{display:none}
+html.lite .rv.in h2,html.lite .orn,html.lite .gold,html.lite .hint{animation:none}
+html.lite .rv>*,html.lite .scroll,html.lite .scene,html.lite .stage,html.lite .flap,html.lite .half{will-change:auto}
+html.lite #lb{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(4,11,38,.97)}
+html.lite .panel,html.lite .band,html.lite .dark,html.lite footer{box-shadow:none}
+html.lite .rays{display:none}
+html.lite .sheet,html.lite .rod,html.lite .tie,html.lite .back{box-shadow:none}
+
+
+/* ===== v14  GIFT / QR VIEW (opens over the invitation so the music keeps playing) ===== */
+#music{z-index:65}
+#giftov{position:fixed;inset:0;z-index:60;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:radial-gradient(ellipse at 50% 0,#fffdf8 0,#F8F3EA 55%,#EFE6D2 100%);color:#1A2B5E;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s .45s}
+#giftov.on{opacity:1;visibility:visible;transition:opacity .45s ease}
+#giftov[hidden]{display:none}
+#giftov .gv{max-width:620px;margin:0 auto;padding:calc(1.2rem + env(safe-area-inset-top,0px)) 1.2rem calc(3rem + env(safe-area-inset-bottom,0px));text-align:center;font:400 1.2rem/1.65 var(--body)}
+#giftov .gv-back{display:block;width:max-content;margin:0 0 1rem;font:500 .66rem var(--disp);letter-spacing:.28em;text-transform:uppercase;color:#0B1F5C;background:none;border:0;border-bottom:1px solid var(--gold);padding:.6rem 0;cursor:pointer}
+#giftov .gv-mono{width:84px;height:auto;display:block;margin:.6rem auto 0}
+#giftov .gv-kick{font:500 .75rem var(--disp);letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin:1rem 0 .2rem;padding-left:.4em}
+#giftov h2{font:400 clamp(1.7rem,6vw,2.3rem)/1.25 var(--disp);letter-spacing:.14em;text-transform:uppercase;color:#0B1F5C;margin:0;background:none;-webkit-text-fill-color:currentColor;animation:none}
+#giftov .gv-orn{display:flex;align-items:center;justify-content:center;gap:.7rem;margin:1rem auto 1.4rem;color:var(--gold);width:min(60%,200px)}
+#giftov .gv-orn::before,#giftov .gv-orn::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+#giftov .gv-orn::after{background:linear-gradient(270deg,transparent,var(--gold))}
+#giftov .gv-orn svg{width:9px;height:9px;flex:none}
+#giftov .gv-h p{margin:0 auto .9rem;max-width:30rem}
+#giftov .gv-lead{font-style:italic;font-size:1.4rem;color:#0B1F5C}
+#giftov b{font-weight:600;color:#0B1F5C}
+#giftov .gv-qr{margin:2rem auto 0;padding:1.6rem 1.4rem 1.8rem;max-width:380px;background:#FFFDF8;border:1px solid var(--hair);outline:1px solid rgba(166,138,75,.28);outline-offset:-8px;box-shadow:0 10px 26px rgba(15,26,60,.14)}
+#giftov .gv-bank{font:500 .8rem var(--disp);letter-spacing:.34em;text-transform:uppercase;color:var(--gold);padding-left:.34em;margin-bottom:1rem}
+#giftov .gv-qrbox{background:#fff;padding:14px;border:1px solid var(--hair);display:inline-block;line-height:0}
+#giftov .gv-qrbox img{width:min(270px,64vw);height:auto;display:block}
+#giftov .gv-acct{margin:1rem 0 .1rem;font-size:1.25rem}
+#giftov .gv-fee{margin:0 0 1.1rem;font-size:.95rem;font-style:italic;opacity:.75}
+#giftov .btn{display:inline-block;font:500 .72rem var(--disp);letter-spacing:.28em;text-transform:uppercase;padding:1rem 1.8rem;border:1px solid var(--gold);background:#0B1F5C;color:var(--gold2);text-decoration:none;cursor:pointer}
+#giftov .btn:hover{background:var(--gold);color:#0B1F5C}
+#giftov .btn.gv-ghost{background:transparent;color:#0B1F5C}
+#giftov .btn.gv-ghost:hover{background:#0B1F5C;color:var(--gold2)}
+#giftov .gv-thanks{margin:2.2rem auto 0;font-style:italic;font-size:1.3rem;color:#0B1F5C}
+#giftov .gv-thanks span{display:block;margin-top:.3rem;font:500 .72rem var(--disp);letter-spacing:.28em;text-transform:uppercase;font-style:normal;color:var(--gold)}
+#giftov .gv-note{margin:2.4rem auto 0;padding:1.6rem 1.4rem;background:rgba(185,138,62,.1);border-left:2px solid var(--gold)}
+#giftov .gv-note b{display:block;font:500 .68rem var(--disp);letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
+#giftov .gv-note p{margin:0 0 1.2rem;font-size:1.3rem;color:#0B1F5C}
+#giftov.on .gv-h,#giftov.on .gv-qr,#giftov.on .gv-thanks,#giftov.on .gv-note{animation:gvup .9s cubic-bezier(.22,1,.36,1) both}
+#giftov.on .gv-qr{animation-delay:.15s}#giftov.on .gv-thanks{animation-delay:.3s}#giftov.on .gv-note{animation-delay:.4s}
+@keyframes gvup{from{opacity:0;transform:translateY(12px)}}
+@media(max-width:480px){#giftov .btn{width:100%;text-align:center}}
+#giftov:focus{outline:none}

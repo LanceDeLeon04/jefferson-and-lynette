@@ -10,6 +10,9 @@ import { initFx } from './fx.js'
 import { WEDDING_DATE, GIFT } from './config.js'
 import musicUrl from './assets/music.mp3'
 const $ = id => document.getElementById(id)
+// Phones, tablets and any touch screen get the light version (no pinned stacked sections, no filters) so scrolling stays smooth
+const lite = matchMedia('(max-width: 900px), (hover: none) and (pointer: coarse)').matches
+document.documentElement.classList.toggle('lite', lite)
 
 // Smooth scrolling (locked until the invitation is opened)
 const lenis = new Lenis({ lerp: .085 }); lenis.stop()
@@ -23,8 +26,10 @@ document.querySelectorAll('nav a').forEach(a => a.addEventListener('click', e =>
 }))
 
 // Background music: starts only when the envelope is opened (invitation page only; the admin page never loads this)
-const audio = new Audio(musicUrl); audio.loop = true; audio.preload = 'auto'; audio.volume = 0; let playing = false
+const audio = new Audio(musicUrl); audio.loop = true; audio.preload = 'none'; audio.volume = 0; let playing = false
 const MUSIC_VOL = .5
+// Start fetching the track a few seconds after the page has loaded so it never competes with the first paint
+addEventListener('load', () => setTimeout(() => { audio.preload = 'auto'; audio.load() }, 2500), { once: true })
 const fadeTo = v => gsap.to(audio, { volume: v, duration: 2.5, ease: 'power1.inOut', overwrite: true })
 const startMusic = () => audio.play().then(() => { playing = true; fadeTo(MUSIC_VOL); $('music').classList.remove('off') }).catch(() => { playing = false; $('music').classList.add('off') })
 $('music').addEventListener('click', () => {
@@ -70,10 +75,33 @@ initGallery(lenis)
 // Gift details
 {const p=$('pay');GIFT.forEach(g=>{const d=document.createElement('div');d.innerHTML=`<b>${g.label}</b><span>${g.name}</span><em>${g.number}</em><button class="btn">Copy</button>`;d.querySelector('button').onclick=async e=>{try{await navigator.clipboard.writeText(g.number.replace(/\s/g,''))}catch(_){}e.target.textContent='Copied'};p.append(d)});if(!GIFT.length)p.remove()}
 
+// Gift / QR view: opens over the invitation instead of loading another page, so the music never stops
+;(function () {
+  const ov = $('giftov'), open = $('giftopen'); if (!ov || !open) return
+  let shown = false
+  const show = () => {
+    if (shown) return; shown = true
+    const im = ov.querySelector('img[data-src]'); if (im) { im.src = im.dataset.src; im.removeAttribute('data-src') }
+    ov.hidden = false; ov.scrollTop = 0; lenis.stop(); requestAnimationFrame(() => { ov.classList.add('on'); ov.focus({ preventScroll: true }) })
+    try { history.pushState({ gift: 1 }, '') } catch (e) {}
+  }
+  const hide = fromPop => {
+    if (!shown) return; shown = false
+    ov.classList.remove('on'); lenis.start(); open.focus({ preventScroll: true })
+    setTimeout(() => { if (!shown) ov.hidden = true }, 480)
+    if (!fromPop) { try { if (history.state && history.state.gift) history.back() } catch (e) {} }
+  }
+  open.addEventListener('click', e => { e.preventDefault(); show() })
+  ov.querySelectorAll('[data-gv-close]').forEach(b => b.addEventListener('click', () => hide(false)))
+  addEventListener('keydown', e => { if (e.key === 'Escape') hide(false) })
+  addEventListener('popstate', () => hide(true))   // phone back button closes the view rather than leaving the invitation
+})()
+
 initFx()
 
-// Stacked "curtain" sections: each panel stays pinned while the next one slides over it
+// Stacked "curtain" sections: each panel stays pinned while the next one slides over it (desktop only: too heavy for phones)
 ;(function () {
+  if (lite) return
   const panels = [...document.querySelectorAll('body>.hero,body>.panel,body>.band,body>.dark')]
   const foot = document.querySelector('footer')
   panels.forEach((p, i) => { p.classList.add('stack'); p.style.setProperty('--z', i + 1); const s = document.createElement('i'); s.className = 'shade'; s.setAttribute('aria-hidden', 'true'); p.append(s); p._s = s })

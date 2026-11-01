@@ -5,7 +5,7 @@ export function initEnvelope({ onOpen, onReveal }) {
   const intro = q('#intro'), stage = q('#stage'), scene = q('#scene'), env = q('#env'), scroll = q('#scroll'), sheet = q('#sheet'), sin = q('#sin'),
     tie = q('.tie'), flapw = q('#flapw'), flap = q('#flap'), seal = q('#seal'), L = q('.half.l'), R = q('.half.r'),
     fF = q('.face.f'), fB = q('.face.b'), shadow = q('.eshadow'), pieces = ['#pBack', '#flapw', '#pFront'].map(q)
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, lite = document.documentElement.classList.contains('lite')
   let opened = false, tiltOn = true
 
   // Arrival
@@ -70,7 +70,7 @@ export function initEnvelope({ onOpen, onReveal }) {
       // the page opens: we move through the scroll into the invitation
       .add(() => onReveal && onReveal(), 10.4)
       .set(scroll, { transformOrigin: '50% 50%' }, 10.3)
-      .to(scroll, { scale: 2.4, duration: 1.9, ease: 'power2.in' }, 10.4)
+      .to(scroll, { scale: lite ? 1.12 : 2.4, duration: 1.9, ease: 'power2.in' }, 10.4)   // a big zoom blows the bitmap up on phones
       .to(scroll, { opacity: 0, duration: .9, ease: 'power1.inOut' }, 10.8)
       .to(intro, { opacity: 0, duration: 1.3, ease: 'power1.inOut' }, 10.9)
       .add(() => intro.remove(), 12.4)
