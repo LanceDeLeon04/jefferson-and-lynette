@@ -7,7 +7,7 @@ const uid = () => Math.random().toString(36).slice(2, 9)
 const LS = (k, v) => v === undefined ? JSON.parse(localStorage.getItem(k) || 'null') : localStorage.setItem(k, JSON.stringify(v))
 const app = $('#app')
 let sb
-const S = { tab: 'guests', guests: [], plan: null, dirty: false, saved: '', sel: null, pick: null, q: '', f: 'all', gq: '', un: true, zoom: 0, edit: null, ent: [], edirty: false, esaved: '' }
+const S = { tab: 'guests', guests: [], plan: null, dirty: false, saved: '', sel: null, pick: null, q: '', f: 'all', gq: '', un: true, exp: {}, zoom: 0, edit: null, ent: [], edirty: false, esaved: '' }
 
 // ---------- data ----------
 const TYPES = { principal: 'Principal Sponsor', secondary: 'Secondary Sponsor', guest: 'Guest' }
@@ -149,13 +149,24 @@ function viewPlan() {
   const fl = $('#floor')
   fl.onpointerdown = down
   fl.ondragover = e => e.preventDefault()
-  fl.ondrop = e => { e.preventDefault(); const g = e.dataTransfer.getData('text/plain'), el = e.target.closest('.tbl'), s = e.target.closest('.seat'); if (g && guest(g) && el) seatParty(g, el.dataset.id, s ? +s.dataset.i : undefined) }
+  fl.ondrop = e => { e.preventDefault(); const g = e.dataTransfer.getData('text/plain'), el = e.target.closest('.tbl'), s = e.target.closest('.seat'); if (g && pgood(g) && el) seatPick(g, el.dataset.id, s ? +s.dataset.i : undefined) }
   glist(); floor(); insp(); plist()
 }
+const pgood = p => p.includes(':') ? !!guest(key2(p)[0]) : !!guest(p)
+const pname = p => p.includes(':') ? who(p) : guest(p)?.name || ''
+const isExp = g => g.guests > 1 && (S.exp[g.id] ?? g.type !== 'guest')
+const seatedAt = k => { for (const t of S.plan.tables) if (seatsOf(t.id).includes(k)) return t.name; return '' }
+const memName = (g, k) => k ? cname(g, k) || g.name + ' +' + k : g.name
+function members(g) {
+  return Array.from({ length: g.guests }, (_, k) => {
+    const key = g.id + ':' + k, at = seatedAt(key), c = k ? g.comps?.[k - 1] : null
+    return `<div class="mem${S.pick === key ? ' pick' : ''}${at ? ' done' : ''}" draggable="true" data-act="pick" data-id="${key}" style="--c:hsl(${hue(g.id)} 55% 62%)"><i class="dot"></i><span>${esc(S.plan.names[key] || memName(g, k))}</span>${c ? `<small>${c.seating === 'reserved' ? 'reserved' : 'free'}</small>` : '<small>host</small>'}<b>${at ? esc(at) : 'drag to seat'}</b></div>`
+  }).join('')
+}
 function glist() {
-  const q = S.gq.toLowerCase(), l = S.guests.filter(g => g.attending && (!q || g.name.toLowerCase().includes(q))).map(g => ({ g, m: missing(g.id).length })).filter(x => !S.un || x.m).sort((a, b) => (!a.m) - (!b.m) || a.g.name.localeCompare(b.g.name))
-  $('#glist').innerHTML = l.map(({ g, m }) => `<div class="chip${S.pick === g.id ? ' pick' : ''}${m ? '' : ' done'}" draggable="true" data-act="pick" data-id="${g.id}" style="--c:hsl(${hue(g.id)} 55% 62%)"><i class="dot"></i><span>${esc(g.name)}</span><em>×${g.guests}</em><b>${m ? m + ' to seat' : '✓'}</b></div>`).join('') || '<div class="tip">Nobody to show.</div>'
-  const h = $('#hint'); if (h) { h.hidden = !S.pick; if (S.pick && guest(S.pick)) h.innerHTML = `Seating ${esc(guest(S.pick).name)} – click a table or a seat <button class="btn sm" data-act="pick" data-id="${S.pick}">Cancel</button>` }
+  const q = S.gq.toLowerCase(), l = S.guests.filter(g => g.attending && (!q || g.name.toLowerCase().includes(q) || (g.comps || []).some(c => (c.name || '').toLowerCase().includes(q)))).map(g => ({ g, m: missing(g.id).length })).filter(x => !S.un || x.m).sort((a, b) => (!a.m) - (!b.m) || a.g.name.localeCompare(b.g.name))
+  $('#glist').innerHTML = l.map(({ g, m }) => `<div class="gw"><div class="chip${S.pick === g.id ? ' pick' : ''}${m ? '' : ' done'}" draggable="true" data-act="pick" data-id="${g.id}" style="--c:hsl(${hue(g.id)} 55% 62%)">${g.guests > 1 ? `<button class="tg" data-act="exp" data-id="${g.id}" title="Show / seat individually">${isExp(g) ? '▾' : '▸'}</button>` : ''}<i class="dot"></i><span>${esc(g.name)}</span><em>×${g.guests}</em><b>${m ? m + ' to seat' : '✓'}</b></div>${isExp(g) ? `<div class="mems">${members(g)}</div>` : ''}</div>`).join('') || '<div class="tip">Nobody to show.</div>'
+  const h = $('#hint'); if (h) { h.hidden = !S.pick || !pgood(S.pick); if (!h.hidden) h.innerHTML = `Seating ${esc(pname(S.pick))} – click a table or a seat <button class="btn sm" data-act="pick" data-id="${S.pick}">Cancel</button>` }
 }
 function floor() {
   const p = S.plan, s = sc(), fw = $('#fw'), fl = $('#floor')
@@ -168,7 +179,7 @@ function floor() {
 }
 function insp() {
   const el = $('#insp'), o = S.sel && obj(S.sel), p = S.plan
-  if (!o) { el.innerHTML = `<h3>Room</h3><label>Width (px)<input type="number" data-room="w" value="${p.w}" min="600" max="3000" step="50"></label><label>Height (px)<input type="number" data-room="h" value="${p.h}" min="400" max="2400" step="50"></label><p class="tip">Click a guest, then a table (or a specific seat) to seat their party. Drag tables to arrange them, drag a seated dot onto another seat to swap. Don’t forget to save.</p>`; return }
+  if (!o) { el.innerHTML = `<h3>Room</h3><label>Width (px)<input type="number" data-room="w" value="${p.w}" min="600" max="3000" step="50"></label><label>Height (px)<input type="number" data-room="h" value="${p.h}" min="400" max="2400" step="50"></label><p class="tip">Drag a guest onto a table to seat their whole party, or expand a sponsor (▸) and drag each companion to any table or seat. Drag a seated dot onto another seat to move or swap, or back onto the guest list to unseat. Drag tables to arrange them. Don’t forget to save.</p>`; return }
   if (tbl(o.id)) {
     const a = seatsOf(o.id)
     el.innerHTML = `<h3>Table</h3><label>Name<input data-p="name" value="${esc(o.name)}"></label><label>Shape<select data-p="shape"><option value="round"${o.shape === 'round' ? ' selected' : ''}>Round</option><option value="rect"${o.shape === 'rect' ? ' selected' : ''}>Long</option></select></label><label>Seats<input type="number" data-p="seats" min="1" max="24" value="${o.seats}"></label><div class="row">${o.shape === 'rect' ? '<button class="btn ghost sm" data-act="rot">Rotate</button>' : ''}<button class="btn ghost sm" data-act="dup">Duplicate</button><button class="btn danger sm" data-act="delsel">Delete</button></div><h4>Seated (${a.filter(Boolean).length}/${o.seats})</h4><ol class="occ">${a.map((v, i) => `<li><span>${i + 1}</span>${v ? `<input data-sn="${v}" value="${esc(who(v))}"><button data-act="unseat" data-t="${o.id}" data-i="${i}" title="Unseat">×</button>` : '<em>Empty</em>'}</li>`).join('')}</ol>`
@@ -181,15 +192,18 @@ function plist() {
 const refresh = () => { glist(); floor(); insp(); plist() }
 const select = id => { S.sel = id; floor(); insp() }
 
-function seatParty(gid, tid, at, quiet) {
-  const g = guest(gid), t = tbl(tid), a = seatsOf(tid), need = missing(gid); if (!g || !t || !need.length) return 0
+function seatParty(gid, tid, at, quiet, only) {
+  const g = guest(gid), t = tbl(tid), a = seatsOf(tid); if (!g || !t) return 0
+  const need = only ? missing(gid).filter(k => only.includes(k)) : missing(gid); if (!need.length) return 0
   const free = a.map((v, i) => v ? -1 : i).filter(i => i >= 0)
   if (at != null && free.includes(at)) free.push(...free.splice(0, free.indexOf(at)))
   const n = Math.min(need.length, free.length); need.slice(0, n).forEach((k, j) => a[free[j]] = gid + ':' + k)
   if (n < need.length && !quiet) toast(`${t.name} is full – ${need.length - n} still unseated`)
-  if (n) { dirty(); if (!quiet) { if (!missing(gid).length) S.pick = null; refresh() } }
+  if (n) { dirty(); if (!quiet) { if (only || !missing(gid).length) S.pick = null; refresh() } }
   return n
 }
+// a pick is either a party id ("gid") or one person ("gid:k")
+function seatPick(p, tid, at) { if (p.includes(':')) { const [g, k] = key2(p); return seatParty(g, tid, at, 0, [k]) } return seatParty(p, tid, at) }
 function autoSeat() {
   S.guests.filter(g => g.attending).sort((a, b) => b.guests - a.guests).forEach(g => {
     for (let need = missing(g.id).length; need > 0;) {
@@ -217,7 +231,7 @@ function down(e) {
     o.x = Math.round(Math.min(Math.max(0, x0 + dx), S.plan.w - el.offsetWidth) / 10) * 10; o.y = Math.round(Math.min(Math.max(0, y0 + dy), S.plan.h - el.offsetHeight) / 10) * 10
     el.style.left = o.x + 'px'; el.style.top = o.y + 'px'
   }
-  const u = () => { removeEventListener('pointermove', m); removeEventListener('pointerup', u); if (mv) { dirty(); if (S.sel !== id) select(id) } else if (S.pick && tbl(id)) seatParty(S.pick, id, seat ? +seat.dataset.i : undefined); else select(id) }
+  const u = () => { removeEventListener('pointermove', m); removeEventListener('pointerup', u); if (mv) { dirty(); if (S.sel !== id) select(id) } else if (S.pick && pgood(S.pick) && tbl(id)) seatPick(S.pick, id, seat ? +seat.dataset.i : undefined); else select(id) }
   addEventListener('pointermove', m); addEventListener('pointerup', u)
 }
 function seatDrag(e, seat) {
@@ -226,8 +240,9 @@ function seatDrag(e, seat) {
   const u = ev => {
     removeEventListener('pointermove', m); removeEventListener('pointerup', u)
     if (!gh) return select(t)
-    gh.remove(); const d = document.elementFromPoint(ev.clientX, ev.clientY)?.closest('.seat')
-    if (d) { const A = seatsOf(t), B = seatsOf(d.dataset.t), j = +d.dataset.i;[A[i], B[j]] = [B[j], A[i]]; dirty(); refresh() }
+    gh.remove(); const at = document.elementFromPoint(ev.clientX, ev.clientY), d = at?.closest('.seat')
+    if (!d && at?.closest('.gl')) { seatsOf(t)[i] = null; dirty(); refresh() }
+    else if (d) { const A = seatsOf(t), B = seatsOf(d.dataset.t), j = +d.dataset.i;[A[i], B[j]] = [B[j], A[i]]; dirty(); refresh() }
   }
   addEventListener('pointermove', m); addEventListener('pointerup', u)
 }
@@ -240,6 +255,7 @@ const acts = {
   new: () => openDlg(), edit: b => openDlg(b.dataset.id), dclose: () => $('#dlg').close(), csv,
   del: async b => { const g = guest(b.dataset.id); if (!confirm('Delete the reply from ' + g.name + '?')) return; try { await delGuest(g.id); if (clean()) dirty(); render() } catch (e) { toast(e.message) } },
   pick: b => { S.pick = S.pick === b.dataset.id ? null : b.dataset.id; glist() },
+  exp: b => { const g = guest(b.dataset.id); S.exp[g.id] = !isExp(g); glist() },
   addt: b => addTable(b.dataset.v), auto: autoSeat,
   clr: () => { if (confirm('Remove everyone from their seats?')) { S.plan.seats = {}; dirty(); refresh() } },
   zi: () => { S.zoom = Math.min(2, +(sc() + .1).toFixed(2)); floor() }, zo: () => { S.zoom = Math.max(.2, +(sc() - .1).toFixed(2)); floor() }, zf: () => { S.zoom = 0; floor() },
@@ -256,7 +272,7 @@ const acts = {
   delsel: () => { const o = obj(S.sel); if (!o) return; if (tbl(o.id)) { if (seatsOf(o.id).some(Boolean) && !confirm('Seated guests at this table will become unseated. Delete it?')) return; S.plan.tables = S.plan.tables.filter(t => t.id !== o.id); delete S.plan.seats[o.id] } else S.plan.items = S.plan.items.filter(i => i.id !== o.id); S.sel = null; dirty(); refresh() }
 }
 app.addEventListener('click', e => { const b = e.target.closest('[data-act]'); if (b) acts[b.dataset.act]?.(b) })
-app.addEventListener('dragstart', e => { const c = e.target.closest('.chip'); if (c) e.dataTransfer.setData('text/plain', c.dataset.id) })
+app.addEventListener('dragstart', e => { const c = e.target.closest('.mem,.chip'); if (c) { e.dataTransfer.setData('text/plain', c.dataset.id); e.dataTransfer.effectAllowed = 'move' } })
 app.addEventListener('input', e => {
   const el = e.target, d = el.dataset; if (!el.closest('.ent')) return
   if (d.ei !== undefined) eg(el).items[ei(el)] = el.value

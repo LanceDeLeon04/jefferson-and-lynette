@@ -31,6 +31,11 @@ td.m{max-width:320px;font-style:italic;opacity:.85}
 .chip{display:flex;align-items:center;gap:.5rem;padding:.45rem .6rem;margin-bottom:.4rem;background:#08174d;border:1px solid rgba(226,190,120,.35);cursor:pointer;user-select:none}
 .chip .dot{width:12px;height:12px;border-radius:50%;background:var(--c);flex:none}.chip span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.chip em{opacity:.7;font-style:normal;font-size:.9rem}.chip b{font-size:.78rem;color:var(--gold2);font-weight:500}
 .chip.pick{border-color:var(--gold2);background:rgba(226,190,120,.25)}.chip.done{opacity:.5}
+.chip .tg{background:none;border:0;color:var(--gold2);cursor:pointer;padding:0 .2rem;font-size:.9rem;line-height:1}
+.gw{margin-bottom:.4rem}.gw .chip{margin-bottom:0}.mems{margin:.2rem 0 0 .9rem;border-left:2px solid rgba(226,190,120,.35);padding-left:.5rem}
+.mem{display:flex;align-items:center;gap:.45rem;padding:.3rem .5rem;margin-bottom:.25rem;background:#0a1d5c;border:1px solid rgba(226,190,120,.25);cursor:grab;user-select:none;font-size:.88rem}
+.mem .dot{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none}.mem span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mem small{opacity:.6;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em}.mem b{font-size:.72rem;color:var(--gold2);font-weight:500}
+.mem.pick{border-color:var(--gold2);background:rgba(226,190,120,.25)}.mem.done{opacity:.5}
 .ctr{display:flex;flex-direction:column;min-width:0}
 .tb{display:flex;gap:.45rem;flex-wrap:wrap;align-items:center;margin-bottom:.6rem}
 .tb select{background:#08174d;border:1px solid var(--gold);padding:.35rem .5rem;font-size:.9rem}
